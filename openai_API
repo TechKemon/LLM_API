@@ -1,0 +1,49 @@
+# !pip install openai
+
+from openai import OpenAI
+import os
+
+# environment variables
+# export OPENAI_API_KEY = "sk-fdvaldavn"\
+    
+from dotenv import find_dotenv, load_dotenv
+load_dotenv(find_dotenv())
+
+openai_api_key = os.getenv("OPENAI_API_KEY")
+
+client = OpenAI(
+    api_key= openai_api_key
+)
+
+def chat_compeltion(text):
+    
+    PROMPT = "WRITE 2 LINE ENGLISH POEM ON A GIVEN TOPIC"
+    
+    completion = client.beta.chat.completions.parse(
+        model = "gpt-4o",
+        messages = [
+            {"role": "system", "content": PROMPT},
+            {"role": "user", "content": text}
+        ],
+        temperature = 0.9,
+        max_tokens = 200,
+    )
+    print(completion)
+    
+    ans = completion.choices[0].message.parsed
+    
+    with open("poem.txt", 'w', encoding = 'utf-8') as f:
+        f.write(ans)
+        
+    # print(ans)
+    
+    return ans
+
+if __name__ =="__main__":
+    
+    query = input("Enter your TOPIC: \n")
+    
+    poem = chat_compeltion(query)
+    
+    print(u"Poem is this: \n {}".format(poem))
+    
