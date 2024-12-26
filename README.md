@@ -1,2 +1,3 @@
 # LLM_API
-files to learn LLM API
+files to teach LLM API to others
+For more, see my Youtube channel
